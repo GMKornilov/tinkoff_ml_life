@@ -1,3 +1,7 @@
+import sys
+import os
+import subprocess
+
 class TextColor():
     BLACK = 30
     RED = 31
@@ -18,7 +22,14 @@ class BackgroundColor():
     CYAN = 46
     WHITE = 47
 
-def ColoredPrint(string, TextColor, BackgroundColor):
-    print(TextColor, BackgroundColor)
-    string = "\033[1;" + str(TextColor) + ';' + str(BackgroundColor) + 'm ' + string
-    print(string)
+def ColoredPrint(string, TextColor, BackgroundColor = BackgroundColor.BLACK, end='\n', file=sys.stdout, flush=False):
+    string = "\033[1;" + str(TextColor) + ';' + str(BackgroundColor) + 'm' + string
+    print(string, end=end, file=file, flush=flush)
+
+def ClearScreen():
+    # there must be some clever code, but subprocess.run("cls") and subprocess.run("clear") didn't work for me
+    print("\n" * 100)
+
+ColoredPrint("aaa", TextColor.BLUE, end = " ")
+ColoredPrint("bbb", TextColor.RED)
+ClearScreen()
