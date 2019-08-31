@@ -29,7 +29,3 @@ def ColoredPrint(string, TextColor, BackgroundColor = BackgroundColor.BLACK, end
 def ClearScreen():
     # there must be some clever code, but subprocess.run("cls") and subprocess.run("clear") didn't work for me
     print("\n" * 100)
-
-ColoredPrint("aaa", TextColor.BLUE, end = " ")
-ColoredPrint("bbb", TextColor.RED)
-ClearScreen()
