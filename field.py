@@ -1,11 +1,20 @@
 import random
 from cell import Cell
-from colored import *
 from copy import deepcopy
+from colorama import init, Fore, Back, Style
+
+class ProbabilitiesError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
 
 class LifeField():
 
     def __init__(self, size, seed, probas):
+        if abs(sum(probas) - 1) >= 1e-8:
+            raise ProbabilitiesError("Sum of probabilities should be equal to 1")
+
+        init()
+        
         random.seed(seed)
         self.seed = seed
 
@@ -26,16 +35,25 @@ class LifeField():
         for i in range(self.size):
             for j in range(self.size):
                 if self.field[i][j] == Cell.EMPTY:
-                    ColoredPrint("E", TextColor.WHITE, end=" ")
+                    print(Fore.WHITE + Back.BLACK + "E", end="")
+                    #ColoredPrint("E", TextColor.WHITE, end=" ")
                 elif self.field[i][j] == Cell.FISH:
-                    ColoredPrint("F", TextColor.BLUE, end=" ")
+                    print(Fore.BLUE + Back.BLACK + "F", end="")
+                    #ColoredPrint("F", TextColor.BLUE, end=" ")
                 elif self.field[i][j] == Cell.SHRIMP:
-                    ColoredPrint("S", TextColor.PURPLE, end=" ")
+                    print(Fore.CYAN + Back.BLACK + "S", end="")
+                    #ColoredPrint("S", TextColor.PURPLE, end=" ")
                 else:
-                    ColoredPrint("R", TextColor.BLACK, BackgroundColor.WHITE, end=" ")
-            ColoredPrint("", TextColor.WHITE, BackgroundColor=BackgroundColor.BLACK)      
+                    print(Fore.BLACK + Back.WHITE + "R", end="")
+                    #ColoredPrint("R", TextColor.BLACK, BackgroundColor.WHITE, end=" ")
+                print(Style.RESET_ALL + " ", end="")
+            print()
+            # ColoredPrint("", TextColor.WHITE, BackgroundColor=BackgroundColor.BLACK)      
 
     def GetNeighBours(self, i, j, mob):
+        '''
+        Calculate amount of neighbours of cell with coordinates (i, j) which are equal to mob
+        '''
         neighbours = []
         for i_plus, j_plus in [
             [-1, 0],
@@ -55,6 +73,9 @@ class LifeField():
         return 0 <= i < self.size and 0 <= j < self.size
 
     def Proccess(self):
+        '''
+        Calculate new state of field
+        '''
         new_field = deepcopy(self.field)
         for i in range(self.size):
             for j in range(self.size):
