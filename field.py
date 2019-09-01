@@ -32,6 +32,7 @@ class LifeField():
                 self.field[i][j] = cellTypes[i * self.size + j]
 
     def Visualize(self):
+        #prints from colored are commented becauuse they didnt work in windows cmd
         for i in range(self.size):
             for j in range(self.size):
                 if self.field[i][j] == Cell.EMPTY:
@@ -93,10 +94,3 @@ class LifeField():
                     elif shrimp_neighbours == 3:
                         new_field[i][j] = Cell.SHRIMP
         self.field = new_field
-
-if __name__ == "__main__":
-    field = LifeField(5, 1488, [0.25, 0.25, 0.3, 0.2])
-    field.Visualize()
-
-    field.Proccess()
-    field.Visualize()

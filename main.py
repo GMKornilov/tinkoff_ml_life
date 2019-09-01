@@ -12,14 +12,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()._get_kwargs()
 
-    for i in args:
-        print(i)
-
     probas = [float(i) for i in args[0][1]]
     seed = args[1][1]
     size = args[2][1]
 
-    print(probas)
     lifeField = field.LifeField(size, seed, probas)
     while True:
         lifeField.Visualize()
